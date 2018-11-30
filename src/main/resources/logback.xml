@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+    <!-- 应用名称 -->
+    <springProperty scope="context" name="applicationName" source="spring.application.name" />
+    <property name="APP_NAME" value="${applicationName}" />
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+    <springProperty scope="context" name="file-home" source="log.file-home" />
+    <property name="LOG_HOME" value="${file-home}" />
+
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 系统日志 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP_NAME}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/${APP_NAME}.log-%d{yyyyMMdd}</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>90</MaxHistory>
+        </rollingPolicy>
+        <layout>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+
+    <!--数据源监控日志-->
+    <appender name="DruidLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP_NAME}-druid.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/${APP_NAME}-druid.log-%d{yyyyMMdd}</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>2</MaxHistory>
+        </rollingPolicy>
+        <layout>
+            <!--格式化输出：%msg：日志消息，%n是换行符 -->
+            <pattern>%msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!--系统异常日志-->
+    <appender name="ErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP_NAME}-error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/${APP_NAME}-error.log-%d{yyyyMMdd}</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>2</MaxHistory>
+        </rollingPolicy>
+        <layout>
+            <!--格式化输出：%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{15} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!--系统方法执行时常日志-->
+    <appender name="MethodTimeLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP_NAME}-mt.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/${APP_NAME}-mt.log-%d{yyyyMMdd}</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>2</MaxHistory>
+        </rollingPolicy>
+        <layout>
+            <!--格式化输出：%msg：日志消息，%n是换行符 -->
+            <pattern>%-5level %logger{15} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <logger level="DEBUG" name="druid" additivity="false">
+        <appender-ref ref="DruidLog" />
+    </logger>
+
+    <logger level="INFO" name="mt" additivity="false">
+        <appender-ref ref="MethodTimeLog" />
+    </logger>
+
+    <logger level="ERROR" name="err" additivity="false">
+        <appender-ref ref="ErrorLog" />
+    </logger>
+
+
+</configuration>

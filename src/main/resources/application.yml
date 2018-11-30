@@ -1,0 +1,88 @@
+server:
+  port: 8080
+spring:
+  jackson:
+    serialization:
+      indent_output: true
+    date-format: yyyy-MM-dd HH:mm:ss
+  application:
+    name: datamigration
+
+#Datasource 卡友服务商库数据源
+kyagentsrvds:
+  dataSourceName: ds_mdb_datamigration_ky_agent_srv_r
+  dsConfPort: @pay-dsmserver.dsm.port@
+  dsConfIp: @pay-dsmserver.dsm.host@
+  logEnabled: true
+  timeBetweenLogStatsMillis: 60000
+  logFilter:
+    resultSetLogEnabled: false
+    connectionLogEnabled: false
+    statementCreateAfterLogEnabled: false
+    statementCloseAfterLogEnabled: false
+    statementPrepareAfterLogEnabled: false
+    statementParameterSetLogEnabled: false
+    statementParameterClearLogEnabled: false
+
+#Datasource 卡友运营库库数据源
+kypospbossds:
+  dataSourceName: ds_odb_datamigration_posp_boss_r
+  dsConfPort: @pay-dsmserver.dsm.port@
+  dsConfIp: @pay-dsmserver.dsm.host@
+  logEnabled: true
+  timeBetweenLogStatsMillis: 60000
+  logFilter:
+    resultSetLogEnabled: false
+    connectionLogEnabled: false
+    statementCreateAfterLogEnabled: false
+    statementCloseAfterLogEnabled: false
+    statementPrepareAfterLogEnabled: false
+    statementParameterSetLogEnabled: false
+    statementParameterClearLogEnabled: false
+
+#Datasource 易多销服务商库数据源
+ydxagentsrvds:
+  dataSourceName: ds_mdb_datamigration_ydx_agent_srv_rw
+  dsConfPort: @pay-dsmserver.dsm.port@
+  dsConfIp: @pay-dsmserver.dsm.host@
+  logEnabled: true
+  timeBetweenLogStatsMillis: 60000
+  logFilter:
+    resultSetLogEnabled: false
+    connectionLogEnabled: false
+    statementCreateAfterLogEnabled: false
+    statementCloseAfterLogEnabled: false
+    statementPrepareAfterLogEnabled: false
+    statementParameterSetLogEnabled: false
+    statementParameterClearLogEnabled: false
+
+#Datasource 易多销服务商产品库库数据源
+ydxagentproductds:
+  dataSourceName: ds_mdb_datamigration_ydx_agent_product_rw
+  dsConfPort: @pay-dsmserver.dsm.port@
+  dsConfIp: @pay-dsmserver.dsm.host@
+  logEnabled: true
+  timeBetweenLogStatsMillis: 60000
+  logFilter:
+    resultSetLogEnabled: false
+    connectionLogEnabled: false
+    statementCreateAfterLogEnabled: false
+    statementCloseAfterLogEnabled: false
+    statementPrepareAfterLogEnabled: false
+    statementParameterSetLogEnabled: false
+    statementParameterClearLogEnabled: false
+
+#ThreadPool 线程池 配置
+threadpool:
+  corePoolSize: 4 #核心线程数
+  maximumPoolSize: 10 #最大线程数
+  keepAliveSeconds: 60 #线程空闲终止时间
+  queueCapacity: 100 #缓冲队列大小
+
+#临时目录
+temp:
+  path: /opt/temp/
+
+#项目日志地址，需要根据上线配置
+log:
+  file-home: /opt/jar_datamigration/logs
